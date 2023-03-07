@@ -133,11 +133,13 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Labirinth.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Math.cpp" />
     <ClCompile Include="RendererWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Labirinth.h" />
+    <ClInclude Include="Math.h" />
     <ClInclude Include="RendererWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

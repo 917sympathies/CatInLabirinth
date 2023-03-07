@@ -15,9 +15,9 @@ Labirinth::Labirinth() {
 	};
 }
 
-void Labirinth::pollEvent() {
+int Labirinth::pollEvent() {
 	SDL_Event event;
-	if(SDL_PollEvent(&event)) {
+	if (SDL_PollEvent(&event)) {
 		if (event.type == SDL_KEYDOWN) {
 			try {
 				switch (event.key.keysym.sym) {
@@ -27,6 +27,8 @@ void Labirinth::pollEvent() {
 							if (labirinth[i][j] == '$') {
 								if (labirinth[i][j - 1] == ' ')
 									std::swap(labirinth[i][j], labirinth[i][j - 1]);
+								else if (labirinth[i][j - 1] == '&') return 1;
+								else return -1;
 							}
 						}
 					break;
@@ -36,6 +38,8 @@ void Labirinth::pollEvent() {
 							if (labirinth[i][j] == '$') {
 								if (labirinth[i - 1][j] == ' ')
 									std::swap(labirinth[i][j], labirinth[i - 1][j]);
+								else if (labirinth[i - 1][j] == '&') return 1;
+								else return -1;
 							}
 						}
 					break;
@@ -47,6 +51,8 @@ void Labirinth::pollEvent() {
 									std::swap(labirinth[i][j], labirinth[i][j + 1]);
 									break;
 								}
+								else if (labirinth[i][j + 1] == '&') return 1;
+								else return -1;
 							}
 						}
 					break;
@@ -60,6 +66,8 @@ void Labirinth::pollEvent() {
 									ok = false;
 									break;
 								}
+								else if (labirinth[i + 1][j] == '&') return 1;
+								else return -1;
 							}
 						}
 						if (!ok) break;
@@ -68,19 +76,14 @@ void Labirinth::pollEvent() {
 				}
 			}
 			catch (const char* exc) {
-
+				return -1;
 			}
 		}
+		if (event.type == SDL_MOUSEBUTTONDOWN) {
+			std::cout << event.motion.x << ", " << event.motion.y << std::endl;
+		}
 	}
-}
-
-void Labirinth::changePlayerPosition(SDL_Keycode keycode) {
-	try {
-
-	}
-	catch (const char* exc) {
-
-	}
+	return 0;
 }
 
 std::vector<Entity> Labirinth::parseLabirinth(SDL_Texture* textureWall, SDL_Texture* texturePlayer, SDL_Texture* textureEnd) {
@@ -88,11 +91,11 @@ std::vector<Entity> Labirinth::parseLabirinth(SDL_Texture* textureWall, SDL_Text
 	for (int i = 0; i < LABIRINTHSIZE; i++) {
 		for (int j = 0; j < labirinth[i].size(); j++) {
 			if (labirinth[i][j] == '*')
-				lab.push_back(Entity(j * 64, i * 64, textureWall));
+				lab.push_back(Entity(Vector2f(j * 64 + STARTPOS, i * 64 + STARTPOS), textureWall));
 			if (labirinth[i][j] == '$')
-				lab.push_back(Entity(j * 64, i * 64, texturePlayer));
+				lab.push_back(Entity(Vector2f(j * 64 + STARTPOS, i * 64 + STARTPOS), texturePlayer));
 			if (labirinth[i][j] == '&')
-				lab.push_back(Entity(j * 64, i * 64, textureEnd));
+				lab.push_back(Entity(Vector2f(j * 64 + STARTPOS, i * 64 + STARTPOS), textureEnd));
 		}
 	}
 	return lab;

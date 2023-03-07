@@ -1,5 +1,5 @@
-#define SCREENWIDTH 1280
-#define SCREENHEIGHT 720
+#define SCREENWIDTH 1400
+#define SCREENHEIGHT 900
 
 #include <iostream>
 #include <vector>
@@ -36,7 +36,17 @@ int main(int argc, char* argv[])
 	SDL_Event event;
 
 	while (isGameRunning) {
-		lab.pollEvent();
+		int result = lab.pollEvent();
+		switch (result) {
+		case -1:
+			std::cout << "You lost :( Try next time! " << std::endl;
+			isGameRunning = false;
+			break;
+		case 1:
+			std::cout << "You've completed the game! Congragulations!!! ^_^ " << std::endl;
+			isGameRunning = false;
+			break;
+		}
 		if (SDL_PollEvent(&event)) {
 			if (event.type == SDL_QUIT)
 				isGameRunning = false;
