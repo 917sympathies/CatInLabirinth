@@ -47,11 +47,15 @@ int main(int argc, char* argv[])
 		switch (result) {
 		case -1:
 			//gameStatus = "You lost :( Try next time!";
-			isGameRunning = false;
+			//Text newText1(window.getRenderer(), "res/arial.ttf", 50, "You lost :( Try next time!", { 255, 255, 255, 255 });
+			text = Text::Text(window.getRenderer(), "res/arial.ttf", 50, "You lost :( Try next time!", { 255, 255, 255, 255 });
+			//isGameRunning = false;
 			break;
 		case 1:
 			//gameStatus = "You've completed the game! Congragulations!!! ^_^";
-			isGameRunning = false;
+			//Text newText2(window.getRenderer(), "res/arial.ttf", 50, "You've completed the game! Congragulations!!! ^_^", { 255, 255, 255, 255 });
+			text = Text::Text(window.getRenderer(), "res/arial.ttf", 50, "You've completed the game! Congragulations!!! ^_^", { 255, 255, 255, 255 });
+			//isGameRunning = false;
 			break;
 		}
 		if (SDL_PollEvent(&event)) {
