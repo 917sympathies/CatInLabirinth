@@ -29,10 +29,10 @@ SDL_Texture* Text::loadFont(SDL_Renderer* renderer,
 		std::cout << "Failed to load a font!! "<< TTF_GetError() << std::endl;
 	auto text_surface = TTF_RenderText_Solid(font, message_text.c_str(), color);
 	if (!text_surface)
-		std::cout << "Failed to create text surface!!" << std::endl;
+		std::cout << "Failed to create text surface!! " << TTF_GetError() << std::endl;
 	auto text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
 	if (!text_texture)
-		std::cout << "Failed to create text texture!!" << std::endl;
+		std::cout << "Failed to create text texture!! " << TTF_GetError() << std::endl;
 	SDL_FreeSurface(text_surface);
 	return text_texture;
 }
