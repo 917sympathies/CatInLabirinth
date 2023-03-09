@@ -1,7 +1,7 @@
 #include "RendererWindow.h"
 
 RendererWindow::RendererWindow(const char* w_title, int w_w, int w_h)
-	:window(NULL), renderer(NULL)
+	:window(NULL)
 {
 	window = SDL_CreateWindow(w_title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w_w, w_h, SDL_WINDOW_SHOWN);
 	if (window == NULL)
@@ -31,6 +31,10 @@ void RendererWindow::render(Entity& p_entity)
 	dst.w = p_entity.getCurrentFrame().w;
 	dst.h = p_entity.getCurrentFrame().h;
 	SDL_RenderCopy(renderer, p_entity.getTexture(), &src, &dst);
+}
+
+SDL_Renderer* RendererWindow::getRenderer() {
+	return renderer;
 }
 
 void RendererWindow::display() 

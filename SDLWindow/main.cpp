@@ -1,5 +1,6 @@
 #define SCREENWIDTH 1400
 #define SCREENHEIGHT 900
+#define STARTGAMEMSG "Take the cat to the door without touching walls"
 
 #include <iostream>
 #include <vector>
@@ -9,6 +10,7 @@
 
 #include "RendererWindow.h"
 #include "Entity.h"
+#include "Text.h"
 #include "Labirinth.h"
 
 int main(int argc, char* argv[]) 
@@ -21,7 +23,12 @@ int main(int argc, char* argv[])
 	if (!IMG_Init(IMG_INIT_PNG))
 		std::cout << "IMG_init has failed" << std::endl;
 
+	if (TTF_Init() < 0)
+		std::cout << "TTF_Init has failed" << std::endl;
+
 	RendererWindow window("LabirinthMeow", SCREENWIDTH, SCREENHEIGHT);
+	std::string gameStatus = STARTGAMEMSG;
+	Text text(window.getRenderer(), "res/arial.ttf", 50, gameStatus, { 255, 255, 255, 255 });
 
 	SDL_Texture* groundTexture = window.loadTexture("img/ground.jpg");
 	SDL_Texture* playerTexture = window.loadTexture("img/cat.png");
@@ -39,11 +46,11 @@ int main(int argc, char* argv[])
 		int result = lab.pollEvent();
 		switch (result) {
 		case -1:
-			std::cout << "You lost :( Try next time! " << std::endl;
+			//gameStatus = "You lost :( Try next time!";
 			isGameRunning = false;
 			break;
 		case 1:
-			std::cout << "You've completed the game! Congragulations!!! ^_^ " << std::endl;
+			//gameStatus = "You've completed the game! Congragulations!!! ^_^";
 			isGameRunning = false;
 			break;
 		}
@@ -56,6 +63,7 @@ int main(int argc, char* argv[])
 		for (auto ent : labirinthWalls) {
 			window.render(ent);
 		}
+		text.display((SCREENWIDTH / 2) - (gameStatus.size() * 10), 20, window.getRenderer());
 		window.display();
 	}
 
